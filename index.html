@@ -120,9 +120,22 @@
       $(document).on("input", "#value", function () {
         const value = $(this).val();
 
-        const valueFormatted = /^\d+$/.test(value)
-          ? arabicToRoman(value)
-          : romanNumerals(value);
+        let valueFormatted = 0;
+
+        const regex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]+$/;
+        const regexNumber = /^\d+$/;
+
+        if (regex.test(value)) {
+          alert("Valid arabic numeral or roman numeral!");
+        } else {
+          valueFormatted = regexNumber.test(value)
+            ? arabicToRoman(value)
+            : romanNumerals(value);
+        }
+
+        if (!valueFormatted) {
+          $(this).val("");
+        }
 
         $("#valueConverted").text(valueFormatted);
       });
